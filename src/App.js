@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Header from "./components/header";
+import Shop from "./components/shop";
+import fakedata from "./fakeData";
 
 function App() {
+  const fast10 = fakedata.slice(0, 10);
+  const [product, setProduct] = useState(fast10);
+  const [cart, setCart] = useState([]);
+
+  const handleAddProduct = (product) => {
+    const newCart = [...cart, product];
+    setCart(newCart);
+  };
+  const handleDeleteProduct = (product) => {
+    const newCarts = cart.filter((data) => data !== product);
+    setCart(newCarts);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Header productNumber={cart.length} />
+      <Shop
+        product={product}
+        handleAddProduct={handleAddProduct}
+        handleDeleteProduct={handleDeleteProduct}
+        cart={cart}
+      />
+    </React.Fragment>
   );
 }
 
